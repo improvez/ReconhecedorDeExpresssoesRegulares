@@ -1,0 +1,23 @@
+Olá!
+
+Meu telefone é (49) 99999-9999.
+Outro telefone: (48) 3333-4444.
+
+Meu email é aluno@universidade.com.br.
+
+A placa do carro é ABC-1234.
+A outra placa é BRA1E23.
+
+O número binário 1010 é par.
+O número 1100 também é par.
+
+Meu número é 49999271760
+
+"Esta é uma string entre aspas."
+
+// Este é um comentário de linha.
+
+/*
+Este é um comentário
+de múltiplas linhas.
+*/
