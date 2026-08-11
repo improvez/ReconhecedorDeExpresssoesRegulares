@@ -1,3 +1,4 @@
+
 import re
 
 
@@ -8,8 +9,6 @@ import re
 expressoes = {
 
     # 1. Binários pares
-    # Sequência formada apenas por 0 e 1,
-    # terminando em 0.
     "Binários pares":
         r"\b[01]*0\b",
 
@@ -50,7 +49,9 @@ expressoes = {
 # LEITURA DO ARQUIVO
 # ============================================================
 
-def ler_arquivo(nome_arquivo):
+def ler_arquivo():
+
+    nome_arquivo = "texto.txt"
 
     try:
 
@@ -60,11 +61,14 @@ def ler_arquivo(nome_arquivo):
     except FileNotFoundError:
 
         print(f"\nERRO: O arquivo '{nome_arquivo}' não foi encontrado.")
+        print("Coloque o arquivo texto.txt na mesma pasta do programa.")
+
         return None
 
     except Exception as erro:
 
         print(f"\nERRO ao abrir o arquivo: {erro}")
+
         return None
 
 
@@ -125,15 +129,13 @@ def main():
     print("          RECONHECEDOR DE EXPRESSÕES REGULARES")
     print("=" * 70)
 
-    nome_arquivo = input(
-        "\nDigite o nome do arquivo .txt que deseja analisar: "
-    ).strip()
+    print("\nAnalisando automaticamente o arquivo: texto.txt")
 
-    texto = ler_arquivo(nome_arquivo)
+    texto = ler_arquivo()
 
     if texto is not None:
 
-        print("\nArquivo carregado com sucesso!")
+        print("Arquivo carregado com sucesso!")
 
         analisar_texto(texto)
 
@@ -144,4 +146,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
