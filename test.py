@@ -1,53 +1,79 @@
-
 import re
-
-
-# ============================================================
-# EXPRESSÕES REGULARES
-# ============================================================
 
 expressoes = {
 
-    # 1. Binários pares
     "Binários pares":
-        r"\b[01]*0\b",
+        r"\b[01]+0\b",
 
-    # 2. Palavras binárias terminadas em 00
     "Binários terminados em 00":
-        r"\b[01]*00\b",
+        r"\b[01]+00\b",
 
-    # 3. Strings entre aspas
     "Strings entre aspas":
         r'"[^"\n]*"',
 
-    # 4. Telefones de Santa Catarina
-    # DDDs: 47, 48 e 49
     "Telefones de SC":
-        r"\(?4[789]\)?\s?9?\d{4}-?\d{4}",
+        r"(?<!\d)\(?4[789]\)?\s?(?:9\d{4}|\d{4})-?\d{4}(?!\d)",
 
-    # 5. Placas brasileiras
-    # Modelo antigo: ABC-1234
-    # Modelo Mercosul: ABC1D23
-    "Placas brasileiras":
-        r"\b(?:[A-Z]{3}-?\d{4}|[A-Z]{3}\d[A-Z]\d{2})\b",
+    "Placas modelo antigo":
+        r"\b[A-Z]{3}-?\d{4}\b",
 
-    # 6. E-mails .br ou .com.br
+    "Placas Mercosul":
+        r"\b[A-Z]{3}\d[A-Z]\d{2}\b",
+
     "E-mails .br ou .com.br":
         r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.(?:com\.br|br)\b",
 
-    # 7. Comentários de linha
     "Comentários de linha":
         r"//[^\n]*",
 
-    # 8. Comentários de múltiplas linhas
     "Comentários multilinha":
-        r"/\*[\s\S]*?\*/"
+        r"/\*[\s\S]*?\*/",
+
+    "CEP":
+        r"\b\d{5}-?\d{3}\b",
+
+    "CPF":
+        r"\b(?:\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})\b",
+
+    "CNPJ":
+        r"\b(?:\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}|\d{14})\b",
+
+    "Datas":
+        r"\b(?:0?[1-9]|[12]\d|3[01])[\/.-](?:0?[1-9]|1[0-2])[\/.-]\d{4}\b",
+
+    "Horários":
+        r"\b(?:[01]\d|2[0-3]):[0-5]\d\b",
+
+    "Valores em reais":
+        r"R\$\s?\d{1,3}(?:\.\d{3})*(?:,\d{2})?",
+
+    "Celulares":
+        r"(?<!\d)\(?\d{2}\)?\s?9\d{4}-?\d{4}(?!\d)",
+
+    "URLs":
+        r"\b(?:https?://|www\.)[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:/[^\s]*)?",
+
+    "E-mails":
+        r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
+
+    "Hashtags":
+        r"(?<!\w)#[A-Za-zÀ-ÿ0-9_]+",
+
+    "Menções":
+        r"(?<!\w)@[A-Za-z0-9_]+",
+
+    "Endereços IPv4":
+        r"\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b",
+
+    "Números decimais":
+        r"\b\d+[,.]\d+\b",
+
+    "Números inteiros":
+        r"\b\d+\b",
+
+    "Números hexadecimais":
+        r"\b0[xX][0-9A-Fa-f]+\b"
 }
-
-
-# ============================================================
-# LEITURA DO ARQUIVO
-# ============================================================
 
 def ler_arquivo():
 
@@ -56,11 +82,11 @@ def ler_arquivo():
     try:
 
         with open(nome_arquivo, "r", encoding="utf-8") as arquivo:
-            return arquivo.read()
+            return arquivo.readlines()
 
     except FileNotFoundError:
 
-        print(f"\nERRO: O arquivo '{nome_arquivo}' não foi encontrado.")
+        print("\nERRO: O arquivo 'texto.txt' não foi encontrado.")
         print("Coloque o arquivo texto.txt na mesma pasta do programa.")
 
         return None
@@ -71,78 +97,114 @@ def ler_arquivo():
 
         return None
 
-
-# ============================================================
-# ANÁLISE DO TEXTO
-# ============================================================
-
-def analisar_texto(texto):
+def analisar_texto(linhas):
 
     print("\n")
-    print("=" * 70)
-    print("                 RESULTADO DA ANÁLISE")
-    print("=" * 70)
+    print("=" * 80)
+    print("                    RESULTADO DA ANÁLISE")
+    print("=" * 80)
 
     encontrou_alguma_coisa = False
 
+    texto_completo = "".join(linhas)
+
     for nome, padrao in expressoes.items():
 
-        resultados = re.findall(padrao, texto)
+        ocorrencias = []
 
-        # Remove duplicados mantendo a ordem
-        resultados_unicos = list(dict.fromkeys(resultados))
+        if nome == "Comentários multilinha":
+
+            for match in re.finditer(padrao, texto_completo):
+
+                resultado = match.group()
+
+                inicio = match.start()
+
+                linha = texto_completo[:inicio].count("\n") + 1
+
+                ocorrencias.append(
+                    (resultado, linha)
+                )
+
+        else:
+
+            for numero_linha, linha_texto in enumerate(
+                linhas, start=1
+            ):
+
+                for match in re.finditer(
+                    padrao,
+                    linha_texto
+                ):
+
+                    resultado = match.group()
+
+                    ocorrencias.append(
+                        (resultado, numero_linha)
+                    )
 
         print(f"\n[{nome}]")
-        print("-" * 70)
+        print("-" * 80)
 
-        if resultados_unicos:
+        if ocorrencias:
 
             encontrou_alguma_coisa = True
 
-            for resultado in resultados_unicos:
-                print(f"  ✓ {resultado}")
+            for resultado, linha in ocorrencias:
+                resultado = resultado.replace(
+                    "\n",
+                    "\\n"
+                )
 
-            print(f"\n  Total encontrado: {len(resultados_unicos)}")
+                print(
+                    f"  ✓ {resultado} "
+                    f"→ linha {linha}"
+                )
+
+            print(
+                f"\n  Total encontrado: "
+                f"{len(ocorrencias)}"
+            )
 
         else:
 
             print("  Nenhuma ocorrência encontrada.")
 
     print("\n")
-    print("=" * 70)
+    print("=" * 80)
 
     if encontrou_alguma_coisa:
-        print("Análise concluída.")
+
+        print("Análise concluída com sucesso!")
+
     else:
-        print("Nenhuma das expressões foi encontrada no texto.")
 
-    print("=" * 70)
+        print(
+            "Nenhuma expressão foi encontrada "
+            "no texto."
+        )
 
+    print("=" * 80)
 
-# ============================================================
-# PROGRAMA PRINCIPAL
-# ============================================================
 
 def main():
 
-    print("=" * 70)
-    print("          RECONHECEDOR DE EXPRESSÕES REGULARES")
-    print("=" * 70)
+    print("=" * 80)
+    print("              RECONHECEDOR DE EXPRESSÕES REGULARES")
+    print("=" * 80)
 
-    print("\nAnalisando automaticamente o arquivo: texto.txt")
+    print(
+        "\nAnalisando automaticamente "
+        "o arquivo: texto.txt"
+    )
 
-    texto = ler_arquivo()
+    linhas = ler_arquivo()
 
-    if texto is not None:
+    if linhas is not None:
 
         print("Arquivo carregado com sucesso!")
 
-        analisar_texto(texto)
-
-
-# ============================================================
-# EXECUÇÃO
-# ============================================================
+        analisar_texto(linhas)
 
 if __name__ == "__main__":
     main()

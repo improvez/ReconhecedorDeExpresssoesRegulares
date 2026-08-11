@@ -1,23 +1,41 @@
-Olá!
+Olá, meu nome é Lucas.
+
+Meu CPF é 123.456.789-00 e meu CNPJ é 12.345.678/0001-90.
+
+Moro no CEP 89500-000.
 
 Meu telefone é (49) 99999-9999.
-Outro telefone: (48) 3333-4444.
+Também posso ser encontrado pelo número (48) 3333-4444.
 
-Meu email é aluno@universidade.com.br.
+A placa do meu carro antigo é ABC-1234.
+A placa do carro novo é BRA1E23.
 
-A placa do carro é ABC-1234.
-A outra placa é BRA1E23.
+Meu e-mail é lucas@exemplo.com.br.
 
-O número binário 1010 é par.
-O número 1100 também é par.
+Acesse https://www.exemplo.com.br/teste
 
-Meu número é 49999271760
+Meu IP é 192.168.1.100.
 
-"Esta é uma string entre aspas."
+A reunião será no dia 11/08/2026 às 19:30.
+
+O produto custa R$ 1.500,00.
+
+O valor da temperatura é 23,5 graus.
+
+O hexadecimal é 0xFF.
+
+#Python
+#TCC
+@lucas
+
+1010 é um número binário par.
+1100 termina em 00.
 
 // Este é um comentário de linha.
 
 /*
-Este é um comentário
-de múltiplas linhas.
+   Este é um comentário
+   de múltiplas linhas.
 */
+
+"Esta é uma string entre aspas."
