@@ -94,7 +94,7 @@ Quando encontra uma ocorrência, o sistema informa a **expressão encontrada e a
 └── 📖 README.md
 ```
 
-### 🐍 `reconhecedor.py`
+### 🐍 `test.py`
 
 Arquivo principal do projeto.
 
