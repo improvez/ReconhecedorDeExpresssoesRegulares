@@ -140,13 +140,13 @@ import re
 ### 1️⃣ Clone o projeto
 
 ```bash
-git clone https://github.com/seu-usuario/reconhecedor-regex.git
+git clone https://github.com/Improvez/ReconhecedorDeExpresssoesRegulares.git
 ```
 
 ### 2️⃣ Entre na pasta
 
 ```bash
-cd reconhecedor-regex
+cd ReconhecedorDeExpresssoesRegulares
 ```
 
 ### 3️⃣ Coloque o texto para análise
@@ -184,7 +184,7 @@ Acesse https://www.exemplo.com.br.
 ### 4️⃣ Execute o programa
 
 ```bash
-python reconhecedor.py
+python test.py
 ```
 
 ---
