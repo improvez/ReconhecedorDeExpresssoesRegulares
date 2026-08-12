@@ -85,9 +85,9 @@ Quando encontra uma ocorrência, o sistema informa a **expressão encontrada e a
 ## 📁 Estrutura do projeto
 
 ```text
-📦 reconhecedor-regex
+📦 ReconhecedorDeExpresssoesRegulares
 │
-├── 🐍 reconhecedor.py
+├── 🐍 test.py
 │
 ├── 📄 texto.txt
 │
